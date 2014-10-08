@@ -29,7 +29,7 @@ It can be quite confusing to get twillio up and running from scratch.  There are
 
 8. Now you should be able to call your twilio phone number and try things out!
 
-(Note, this project was heavily based on: https://github.com/womensp2p/text-to-call-webapp so you might want to read more about this here.)
+(Note, we spent a lot of time figuring things out from the ADVANCED_README.md in this directory.  So if you run into problems, try looking at that file.)
 
 ## TODO:
 
@@ -37,7 +37,7 @@ It can be quite confusing to get twillio up and running from scratch.  There are
 2. update readme
 3. add a real database backend
 4. add more advance menu functionality
-5. allow people to create accounts via phone, and receive SMS confirmation (this will require using the twillio Auth options)
+5. allow people to create accounts via phone, and receive SMS confirmation (this will require using the twillio Auth options, and be more advanced)
 
 
 
