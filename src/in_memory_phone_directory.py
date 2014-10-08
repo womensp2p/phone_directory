@@ -1,8 +1,6 @@
-import re
-
 from collections import defaultdict
 from phone_directory_actions import PhoneDirectoryActions
-
+from util import validate_phone_number
 
 class SimplisticPhoneDirectoryActions(PhoneDirectoryActions):
     '''
@@ -43,7 +41,7 @@ class SimplisticPhoneDirectoryActions(PhoneDirectoryActions):
         If new phone number is not valid, throw 
         '''
         self._verify_userid_exists(userid)
-        self._validate_phone_number(new_number)
+        validate_phone_number(new_number)
         old_number = self.directory[userid]['phone']
         self.archive[userid].append(old_number)
         self.directory[userid]['phone'] = new_number
@@ -54,10 +52,3 @@ class SimplisticPhoneDirectoryActions(PhoneDirectoryActions):
         '''
         if userid not in self.directory:
             raise KeyError('User ID {} not found in the directory'.format(userid))
-
-    def _validate_phone_number(number):
-        '''
-        Raise ValueError if phone number is not a ten digit numeric string
-        '''
-        if not (re.match(r'^\d+$', number) and len(number) == 10):
-            raise ValueError('Phone number {} is not a ten digit numeric string'.format(number))
