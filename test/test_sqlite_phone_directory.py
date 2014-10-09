@@ -14,7 +14,6 @@ class TestSqlitePhoneDirectory(unittest.TestCase):
     def test_user_exists(self):
         assert self._db.user_exists(1122)
 
-
     def test_user_does_not_exist(self):
         assert not self._db.user_exists(1123)
 
