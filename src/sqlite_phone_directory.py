@@ -58,7 +58,7 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         session.close()
 
         if len(res) != 1:
-            raise KeyError
+            raise KeyError("User {} not found".format(user_id))
         else:
             return res[0]
 
