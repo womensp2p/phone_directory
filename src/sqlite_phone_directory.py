@@ -1,7 +1,6 @@
 
 import datetime
 import re
-
 import sqlalchemy
 from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -11,25 +10,28 @@ from phone_directory_actions import PhoneDirectoryActions
 from util import validate_phone_number
 
 
+# Creating the base class for database mapped objects,
+# see: http://docs.sqlalchemy.org/en/rel_0_9/orm/extensions/declarative.html
 Base = declarative_base()
 
+# A helper for binding a database engine for use with declaritive base
 def bind_engine(engine):
     Base.metadata.create_all(engine)
     return sessionmaker(bind=engine, autoflush=True)
 
-
 class User(Base):
+    """ User model representing a user with a user_id, name, and phone number """
     __tablename__ = 'users'
 
     user_id = Column('user_id', Integer, primary_key=True)
     phone = Column('crm_type', String(100))
     name = Column('name', String(100))
-
     updated_at = Column('updated_at', DateTime, onupdate=datetime.datetime.now, default=datetime.datetime.now, index=True)
     created_at = Column('created_at', DateTime, default=datetime.datetime.now, index=True)
 
 
 class PhoneHistory(Base):
+    """ PhoneHistory, we store a PhoneHistory entry for each change """
     __tablename__ = 'phone_history'
     id = Column('id', Integer, index=True, primary_key=True)
     user_id = Column('user_id', Integer, index=True)
@@ -43,7 +45,7 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
     Data stored in a sqliteDB.
     '''
 
-    def __init__(self, database="sqlite:///test.db"):
+    def __init__(self, database="sqlite:///:memory:"):
         engine = sqlalchemy.create_engine(
             database # TODO: better path to database
         )
@@ -114,17 +116,5 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
 
         session.add(user)
         session.commit()
-
-
-if __name__ == '__main__':
-    sq = SqlitePhoneDirectoryActions(database="sqlite:///:memory:")
-    sq._add_a_user(user_id=1122, phone='1'*10, name='ben')
-
-    # some quick tests
-    assert sq.user_exists(1122)
-    assert sq.get_name(1122) == 'ben'
-    assert sq.get_phone_number(1122) == '1'*10
-    sq.update_phone_number(user_id=1122, new_number='2'*10)
-    assert sq.get_phone_number(1122) == '2'*10
 
 
