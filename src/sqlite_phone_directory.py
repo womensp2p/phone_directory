@@ -87,7 +87,7 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         '''
         If user_id exists, update its phone number and archive the old number.
         If user_id does not exist, throw KeyError
-        If new phone number is not valid, throw
+        If new phone number is not valid, throw ValueError
         '''
         user = self._get_user_by_id(user_id)
         validate_phone_number(new_number)
