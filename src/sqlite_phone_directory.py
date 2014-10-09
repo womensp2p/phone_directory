@@ -103,6 +103,7 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         session.add(user)
         session.add(history)
         session.commit()
+        session.close()
 
     def _add_a_user(self, user_id, phone, name):
         validate_phone_number(phone)
@@ -116,5 +117,6 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
 
         session.add(user)
         session.commit()
+        session.close()
 
 
