@@ -7,7 +7,8 @@ from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, Foreign
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 
-#from phone_directory_actions import PhoneDirectoryActions
+from phone_directory_actions import PhoneDirectoryActions
+from util import validate_phone_number
 
 
 Base = declarative_base()
@@ -16,20 +17,6 @@ def bind_engine(engine):
     Base.metadata.create_all(engine)
     return sessionmaker(bind=engine, autoflush=True)
 
-# def __create_crm_object(SessionMaker, crm_type, crm_class, kwargs,
-#         site_id=None):
-#
-#     session = SessionMaker()
-#
-#     connection = crm_class(**kwargs)
-#     connection.site_id = site_id
-#     session.add(connection)
-#     session.commit()
-#
-#     crm_id = connection.crm_id
-#     session.close()
-#
-#     return crm_id
 
 class User(Base):
     __tablename__ = 'users'
@@ -41,6 +28,7 @@ class User(Base):
     updated_at = Column('updated_at', DateTime, onupdate=datetime.datetime.now, default=datetime.datetime.now, index=True)
     created_at = Column('created_at', DateTime, default=datetime.datetime.now, index=True)
 
+
 class PhoneHistory(Base):
     __tablename__ = 'phone_history'
     id = Column('id', Integer, index=True, primary_key=True)
@@ -49,9 +37,6 @@ class PhoneHistory(Base):
     updated_at = Column('updated_at', DateTime, onupdate=datetime.datetime.now, default=datetime.datetime.now, index=True)
     created_at = Column('created_at', DateTime, default=datetime.datetime.now, index=True)
 
-
-class PhoneDirectoryActions:
-    pass
 
 class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
     '''
@@ -103,7 +88,7 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         If new phone number is not valid, throw
         '''
         user = self._get_user_by_id(user_id)
-        self._validate_phone_number(new_number)
+        validate_phone_number(new_number)
         old_number = user.phone
         user.phone = new_number
 
@@ -118,22 +103,17 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         session.commit()
 
     def _add_a_user(self, user_id, phone, name):
+        validate_phone_number(phone)
+
         session = self._SessionMaker()
 
-        user= User()
+        user = User()
         user.name = name
         user.user_id = user_id
         user.phone = phone
 
         session.add(user)
         session.commit()
-
-    def _validate_phone_number(self, number):
-        '''
-        Raise ValueError if phone number is not a ten digit numeric string
-        '''
-        if not (re.match(r'^\d+$', number) and len(number) == 10):
-            raise ValueError('Phone number {} is not a ten digit numeric string'.format(number))
 
 
 if __name__ == '__main__':
