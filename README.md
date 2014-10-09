@@ -32,6 +32,11 @@ It can be quite confusing to get twilio up and running from scratch.  There are 
 
 (Note, we spent a lot of time figuring things out from the ADVANCED_README.md in this directory.  So if you run into problems, try looking at that file.)
 
+## Running tests
+
+Type: ``` nosetests ``` in the root directory to run the test suite.
+
+
 ## TODO:
 
 1. Get the basic app and menu working

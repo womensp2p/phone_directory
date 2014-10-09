@@ -14,6 +14,10 @@ class TestSqlitePhoneDirectory(unittest.TestCase):
     def test_user_exists(self):
         assert self._db.user_exists(1122)
 
+
+    def test_user_does_not_exist(self):
+        assert not self._db.user_exists(1123)
+
     def test_get_name(self):
         assert self._db.get_name(1122) == 'ben'
 
@@ -23,6 +27,7 @@ class TestSqlitePhoneDirectory(unittest.TestCase):
     def test_update_phone_number(self):
         self._db.update_phone_number(user_id=1122, new_number='2'*10)
         assert self._db.get_phone_number(1122) == '2'*10
+
 
 
 

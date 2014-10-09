@@ -66,8 +66,11 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
         '''
         Return true if user_id exists, false if not
         '''
-        user = self._get_user_by_id(user_id)
-        return (user != None) # truthy
+        try:
+            user = self._get_user_by_id(user_id)
+            return True
+        except KeyError:
+            return False
 
     def get_phone_number(self, user_id):
         '''
