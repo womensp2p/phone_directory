@@ -54,13 +54,13 @@ class SqlitePhoneDirectoryActions(PhoneDirectoryActions):
 
     def _get_user_by_id(self, user_id):
         session = self._SessionMaker()
-        res = session.query(User).filter(User.user_id == user_id).all()
+        users_returned = session.query(User).filter(User.user_id == user_id).all()
         session.close()
 
-        if len(res) != 1:
+        if len(users_returned) != 1:
             raise KeyError("User {} not found".format(user_id))
         else:
-            return res[0]
+            return users_returned[0]
 
     def user_exists(self, user_id):
         '''
