@@ -26,7 +26,7 @@ It can be quite confusing to get twilio up and running from scratch.  There are 
 5. Download and install ngrok (https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html) on OSX you can type `brew install ngrok`
 
 6. Start ngrok and have it listen on port 5000 `ngrok 5000` you will get back a specific url like: http://6b405a6d.ngrok.com
-7. Goto the Twillio Dashboard, click on "numbers", click on your twilio number, and for your voice url enter your ngrok server + /voice, i.e. http://6b405a6d.ngrok.com/voice
+7. Goto the Twillio Dashboard, click on "numbers", click on your twilio number, and for your voice url enter your ngrok server url, i.e. http://6b405a6d.ngrok.com/
 
 8. Now you should be able to call your twilio phone number and try things out!
 
